@@ -1,0 +1,22 @@
+git和github是两个完全不同的概念。
+git
+   git是一个版本管理工具，是可以在电脑不联网的情况下，只在本地使用的一个版本管理工具，其作用就是可以让我们更好的管理自己的程序，
+比如我们原来提交过的内容，以后虽然修改了，但是通过git这个工具，可以把我们原来提交的内容重现出来，这样对于我们后来才意识到的一些错误的更改 可以进行还原。
+github
+关于github，这是一个网站，就是每个程序员自己写的程序，可以在github上建立一个网上的仓库，我们每次提交的时候可以把代码提交到网上，
+这样我们的每次提交，别人也都可以看到我们的代码，同时别人也可以帮助修改我们的代码，这种开源的方式非常方便程序员之间的交流和学习。 github是一个非常适合程序员交流的网站，很多国际上的技术大牛都在github上有自己的开源代码， 其他人只要申请个账号就可以随意的看到这些大牛写的程序。同时国内的很多互联网公司如百度，阿里等， 也在github上公布有开源的代码，感兴趣的程序员也可以自己查找着看一些。想看国内大公司的代码，
+总结来说，git可以认为是一个软件，能够帮你更好的写程序，github则是一个网站，这个网站可以帮助程序员之间互相交流和学习。
+git的工作流程 随着项目人员的增加，需要多人协作开发，源仓库默认有个master分支， 我们需要再次创建一个develop开发分支，一般源仓库是受保护的，开发者不应该直接对其进行开发工作。master主要有两个作用： 汇总参与该项目的各个开发者的代码；存放趋于稳定和可发布的代码。 有两种方式实现多人协作：
+第一种方式，在源仓库下开一个分支develop，大家有更新直接提交到develop中， 如果该版本比如V1.0.0完成，就可以合并到master上就好。其中，每个人是从develop下切新的分支，比如dscdev， dscdev开发一个小feature之后，也可以通过merge requests的方式向develop提pr，同时也可以邀请组内成员review代码。 leader阅读完之后没问题，就可以merge到develop分支中。
+第二种方式是每个成员都需要fork源仓库中的一份代码到自己的远程库之中。
+此处假设源仓库地址为git@github.com:flutter/flutter.git， 我的远程仓库地址为：git@github.com:duanshoucheng/flutter.git。在Android Studio下clone我的远程仓库到本地，然后： git remote add upstream git@github.com:flutter/flutter.git upstream可以自己命名。此时可以使用命令： 1）git remote -v 可以查看所有的远程仓库 2）git remote show [remote-name] 相比上一个命令，可以查看某个远程仓库更详细内容，包括仓库下有哪些分支 git fetch [remote-name] // git remote update upstream
+git checkout -b [分支名] [远程名]/[分支名] [远程名]/[分支名]表示远程分支 例如：git checkout -b develop origin/masterdevelop 现在本地分支 develop会自动将推送和抓取数据的位置定位到origin/masterdevelop 以下是之后常用的工作流程 git add . git commit -m “xxx” git checkout develop git pull -r git checkout dsc/develop git rebase develop
+可能有冲突，命令git status会提示。此时可以git diff — cached xx/xx/xx/xx.java查看冲突的详情，
+然后git add xx/xxx/xx/xx.java，或者git add .
+status查看，会有提示下一步的操作过程，最后 git rebase —continue.
+然后（重要）切换到dsc/develop分支下 git push -f origin
+建议在后面添加 dsc/develop:dsc/develop,冒号前面代表本地仓库，冒号后面代表远端仓库。 如果不添加后面的，可能会报错：the current branch dsc/develop has no upstream branch 可以在网页中提PR了。 首次使用的顺序： 1）我的fork仓库：develop //此步在网页中操作
+2）我的开发分支：dsc/develop (本地分支一般和远程分支都有对应关系)
+新建分支的命令：git checkout -b dsc/develop ,创建了一个名为dsc/develop的分支
+删除分支的命令：git branch -D dsc/develop ，删除了一个名为dsc/develop的分支
+本地分支如果同步了远程分支，那么继续删除远程分支的命令：git push origin --delete dsc/develop(需要删除的分支名)
